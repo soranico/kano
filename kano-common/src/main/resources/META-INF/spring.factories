@@ -1,1 +1,3 @@
-org.springframework.context.ApplicationListener=com.kano.application.listener.ProfilesApplicationListener
+######## EnableAutoConfiguration ########
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.kano.application.autoconfigure.web.http.servlet.HttpMethodAutoConfiguration

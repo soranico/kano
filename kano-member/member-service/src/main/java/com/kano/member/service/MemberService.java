@@ -2,7 +2,7 @@ package com.kano.member.service;
 
 /**
  * <pre>
- * @title com.kano.member.service.KanoMemberService
+ * @title com.kano.member.service.MemberService
  * @description
  *        <pre>
  *          dubbo提供者测试
@@ -14,11 +14,11 @@ package com.kano.member.service;
  *
  * </pre>
  */
-public interface KanoMemberService {
+public interface MemberService {
 
     /**
      * test
      * @return
      */
-    String provider();
+    String provider(String message);
 }

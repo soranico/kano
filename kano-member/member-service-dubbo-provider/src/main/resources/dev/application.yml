@@ -1,0 +1,29 @@
+###### http #####
+server:
+  port: 9000
+###### dubbo #####
+dubbo:
+  application:
+    id: member-service-dubbo-provider
+    name: member-service-dubbo-provider
+  registry:
+    address: nacos://127.0.0.1:8848
+  scan:
+    base-packages: com.soranico.member.service
+  protocol:
+    name: dubbo
+    port: 10000
+###### log #####
+spring:
+  application:
+    name: member-service-dubbo-provider
+    logger:
+      path: log/
+      level: DEBUG
+###### mybatis #####
+mybatis:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  Configuration:
+    map-underscore-to-camel-case: true
+
+

@@ -7,6 +7,7 @@
     <groupId>com.kano</groupId>
     <artifactId>kano</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
     <parent>
         <artifactId>spring-boot-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
@@ -14,6 +15,8 @@
     </parent>
     <properties>
         <java.version>1.8</java.version>
+        <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
+        <spring.cloud.version>2.2.3.RELEASE</spring.cloud.version>
         <dubbo.version>2.7.7</dubbo.version>
         <lombok.version>1.18.12</lombok.version>
         <commons.lang3.version>3.10</commons.lang3.version>
@@ -23,6 +26,7 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.30</slf4j.version>
         <google.guava.version>29.0-jre</google.guava.version>
+        <druid.version>1.1.23</druid.version>
         <jhm.version>1.23</jhm.version>
         <easyexcel.version>2.2.6</easyexcel.version>
         <shiro.version>1.5.3</shiro.version>
@@ -38,29 +42,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!-- dubbo-->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-nacos</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
 
-        <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
+
 
         <!-- log -->
         <dependency>
@@ -102,36 +85,85 @@
             <version>${google.guava.version}</version>
         </dependency>
 
+
     </dependencies>
     <!-- 版本控制-->
     <dependencyManagement>
         <dependencies>
 
+            <!-- spring cloud 和dubbo 任意选一个-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+
+
+            <!-- dubbo-->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+
+            <!-- jmh -->
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
                 <version>${jhm.version}</version>
-                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jhm.version}</version>
-                <scope>import</scope>
             </dependency>
 
+            <!-- excel -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
-                <scope>import</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring-boot-starter</artifactId>
                 <version>${shiro.version}</version>
-                <scope>import</scope>
             </dependency>
 
             <dependency>
@@ -142,12 +174,10 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- 环境配置 -->
     <profiles>
         <profile>
             <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <deploy.type>dev</deploy.type>
             </properties>
@@ -159,6 +189,7 @@
             </properties>
         </profile>
     </profiles>
+
     <build>
         <resources>
             <resource>
@@ -166,10 +197,23 @@
                 <excludes>
                     <exclude>pro/*</exclude>
                     <exclude>dev/*</exclude>
+                    <exclude>log/*</exclude>
+                    <exclude>banner/*</exclude>
                 </excludes>
+                <includes>
+                    <include>mapper/**/*.xml</include>
+                </includes>
             </resource>
+            <!-- 此处配置编译会去掉文件夹 -->
             <resource>
                 <directory>src/main/resources/${profile.active}</directory>
+            </resource>
+            <!-- commons -->
+            <resource>
+                <directory>src/main/resources/log</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/banner</directory>
             </resource>
         </resources>
         <plugins>
@@ -177,8 +221,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

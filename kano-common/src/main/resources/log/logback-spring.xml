@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 控制台不同级别颜色 -->
+    <conversionRule conversionWord="kanoLevelColor" converterClass="com.kano.log.KanoLevelColorConverter"/>
+
+    <!-- spring配置文件中的配置 -->
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+    <springProperty scope="context" name="mapperDir" source="mybatis.sql.logger.mapper.package"/>
+    <springProperty scope="context" name="logDir" source="spring.application.logger.path"/>
+    <springProperty scope="context" name="logLevel" source="spring.application.logger.level"/>
+
+    <!-- 时间 | 应用 | 进程 | 日志级别 | 线程名 | 类 | 行号 | 消息  -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%date{yyyy-MM-dd HH:mm:ss} | %boldMagenta(${applicationName}) - [ ${PID} ] - %kanoLevelColor(%-5level) - | %yellow(%thread) | %green(%logger) [ %white(%L) ] - %msg%n"/>
+    <!-- 时间 | 应用 | 进程 | 日志级别 | 线程 -->
+    <property name="FILE_LOG_PATTERN"
+              value="%date{yyyy-MM-dd HH:mm:ss} | ${applicationName} - [ ${PID} ] - %-5level - | %thread | %logger | %L - %msg%n"/>
+
+
+    <!-- 控制台 -->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 普通日志 -->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logDir}/${applicationName}/${applicationName}-info.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logDir}/${applicationName}/info/%d{yyyy-MM-dd}/${applicationName}-%i.log</FileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
+    <!-- 警告日志 -->
+    <appender name="fileWarnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logDir}/${applicationName}/${applicationName}-warn.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logDir}/${applicationName}/warn/%d{yyyy-MM-dd}/${applicationName}-%i.log</FileNamePattern>
+            <maxHistory>30</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
+    <!-- 异常日志 -->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logDir}/${applicationName}/${applicationName}-error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logDir}/${applicationName}/error/%d{yyyy-MM-dd}/${applicationName}-%i.log</FileNamePattern>
+            <maxHistory>60</maxHistory>
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
+
+    <!-- 异步写出日志到文件 -->
+    <appender name ="fileInfoLogAsync" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref ="fileInfoLog"/>
+    </appender>
+
+    <appender name ="fileWarnLogAsync" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref ="fileWarnLog"/>
+    </appender>
+
+    <appender name ="fileErrorLogAsync" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref ="fileErrorLog"/>
+    </appender>
+
+    <!-- 日志级别 -->
+    <root level="${logLevel}">
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileInfoLogAsync" />
+        <appender-ref ref="fileErrorLogAsync" />
+        <appender-ref ref="fileWarnLogAsync" />
+    </root>
+
+</configuration>

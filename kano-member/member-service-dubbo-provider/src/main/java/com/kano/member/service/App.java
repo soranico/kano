@@ -1,5 +1,6 @@
-package com.soranico.member;
+package com.kano.member.service;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * <pre>
- * @title com.kano.member.App
+ * @title com.kano.member.service.App
  * @description
  *        <pre>
  *          kano
@@ -20,7 +21,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * </pre>
  */
 @EnableDubbo
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
 public class App {
 
     public static void main(String[] args) {

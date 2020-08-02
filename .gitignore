@@ -31,4 +31,5 @@ dependency-reduced-pom.xml
 *.iws
 *.idea
 logs/
+log/
 application-boot/src/main/java/com/soranico/beanfactory/
