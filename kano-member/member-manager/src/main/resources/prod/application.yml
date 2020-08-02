@@ -1,0 +1,24 @@
+###### http #####
+server:
+  port: 8080
+  tomcat:
+    accept-count: 1024
+    max-threads: 1024
+    uri-encoding: UTF-8
+    min-spare-threads: 64
+###### dubbo #####
+dubbo:
+  application:
+    id: member-manager
+    name: member-manager
+  registry:
+    address: nacos://127.0.0.1:8848
+  consumer:
+    timeout: 8000
+###### log #####
+spring:
+  application:
+    name: member-manager
+    logger:
+      path: log/${spring.application.name}
+      level: INFO
