@@ -24,7 +24,11 @@
             <artifactId>member-service</artifactId>
             <version>1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kano</groupId>
+            <artifactId>kano-common</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- dubbo-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>

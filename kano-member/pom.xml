@@ -15,18 +15,10 @@
 
     <modules>
         <module>member-service</module>
-        <module>member-service-dubbo-provider</module>
-        <module>member-manager</module>
         <module>member-entity</module>
         <module>member-mapper</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.kano</groupId>
-            <artifactId>kano-common</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
+
 
 </project>
