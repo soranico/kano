@@ -17,8 +17,15 @@ dubbo:
     timeout: 8000
 ###### log #####
 spring:
+  ##### 注册中心的服务名，如果没有指定 service ######
   application:
     name: member-manager
+  ##### 注册中心配置 ######
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    ##### 日志 ######
     logger:
       path: log/
       level: DEBUG

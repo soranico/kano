@@ -32,4 +32,5 @@ dependency-reduced-pom.xml
 *.idea
 logs/
 log/
+logDir_IS_UNDEFINED/
 application-boot/src/main/java/com/soranico/beanfactory/
