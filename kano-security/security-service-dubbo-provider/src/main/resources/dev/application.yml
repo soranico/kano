@@ -1,0 +1,32 @@
+###### dubbo #####
+dubbo:
+  application:
+    id: security-service-dubbo-provider
+    name: security-service-dubbo-provider
+  registry:
+    address: nacos://127.0.0.1:8848
+  scan:
+    base-packages: com.soranico.security.service.dubbo
+  protocol:
+    name: dubbo
+    port: 10001
+###### log #####
+spring:
+  application:
+    name: security-service-dubbo-provider
+    logger:
+      level: DEBUG
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1/kano-auth?serverTimezone=UTC
+      username: root
+      password: root
+###### mybatis #####
+mybatis:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  Configuration:
+    map-underscore-to-camel-case: true
+
+
+

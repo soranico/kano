@@ -7,9 +7,9 @@
     <!-- spring配置文件中的配置 -->
     <springProperty scope="context" name="applicationName" source="spring.application.name"/>
     <springProperty scope="context" name="mapperDir" source="mybatis.sql.logger.mapper.package"/>
-    <springProperty scope="context" name="logDir" source="spring.application.logger.path"/>
     <springProperty scope="context" name="logLevel" source="spring.application.logger.level"/>
 
+    <property name="logDir" value="log"/>
     <!-- 时间 | 应用 | 进程 | 日志级别 | 线程名 | 类 | 行号 | 消息  -->
     <property name="CONSOLE_LOG_PATTERN"
               value="%date{yyyy-MM-dd HH:mm:ss} | %boldMagenta(${applicationName}) - [ ${PID} ] - %kanoLevelColor(%-5level) - | %yellow(%thread) | %green(%logger) [ %white(%L) ] - %msg%n"/>
