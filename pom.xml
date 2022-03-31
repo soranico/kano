@@ -18,7 +18,7 @@
         <java.version>1.8</java.version>
         <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
         <spring.cloud.version>2.2.3.RELEASE</spring.cloud.version>
-        <spring.boot.version>2.2.7.RELEASE</spring.boot.version>
+        <spring.boot.version>2.5.12</spring.boot.version>
         <spring.security.version>5.2.6.RELEASE</spring.security.version>
         <jjwt.version>0.9.1</jjwt.version>
         <dubbo.version>2.7.7</dubbo.version>
